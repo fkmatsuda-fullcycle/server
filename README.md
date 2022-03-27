@@ -1,0 +1,2 @@
+# server
+FullCycle Server example
