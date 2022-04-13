@@ -16,7 +16,10 @@ spec:
     spec:
       containers:
       - name: goserver
-        image: fkmatsuda/server:latest
+        image: fkmatsuda/server:0.0.4
+        envFrom:
+        - configMapRef:
+            name: server-env
         resources:
           limits:
             memory: "128Mi"
