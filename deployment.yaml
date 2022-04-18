@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: goserver
-        image: fkmatsuda/server:0.0.8
+        image: fkmatsuda/server:0.0.9
         startupProbe:
           httpGet:
             path: /healthz
