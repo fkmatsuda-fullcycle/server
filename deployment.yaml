@@ -16,13 +16,57 @@ spec:
     spec:
       containers:
       - name: goserver
-        image: fkmatsuda/server:0.0.7
+        image: fkmatsuda/server:0.0.8
+        startupProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          periodSeconds: 1
+          failureThreshold: 10
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          periodSeconds: 3
+          failureThreshold: 1
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          periodSeconds: 5
+          failureThreshold: 1
+          timeoutSeconds: 1
+          successThreshold: 1
+          initialDelaySeconds: 10
         envFrom:
         - configMapRef:
             name: server-env
         resources:
+          requests:
+            memory: "32Mi"
+            cpu: "10m"
           limits:
             memory: "128Mi"
             cpu: "500m"
         ports:
           - containerPort: 80
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: goserver-hpa
+  labels:
+    app: goserver
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: goserver
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: 75
+      
