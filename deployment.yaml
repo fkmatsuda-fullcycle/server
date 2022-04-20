@@ -1,3 +1,19 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: goserver-svc
+  labels:
+    app: goserver
+spec:
+  selector:
+    app: goserver
+  type: ClusterIP
+  ports:
+  - name: goserver-http
+    port: 80
+    protocol: TCP
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -5,7 +21,7 @@ metadata:
   labels:
     app: goserver
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: goserver
@@ -16,7 +32,7 @@ spec:
     spec:
       containers:
       - name: goserver
-        image: fkmatsuda/server:0.0.12
+        image: fkmatsuda/server:0.0.13
         startupProbe:
           httpGet:
             path: /healthz
@@ -43,28 +59,13 @@ spec:
             name: server-env
         resources:
           requests:
-            memory: "32Mi"
-            cpu: "10m"
+            memory: "12Mi"
+            cpu: "50m"
           limits:
-            memory: "32Mi"
+            memory: "16Mi"
             cpu: "100m"
         ports:
           - containerPort: 80
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: goserver-svc
-  labels:
-    app: goserver
-spec:
-  selector:
-    app: goserver
-  type: ClusterIP
-  ports:
-  - name: goserver-http
-    port: 80
-    protocol: TCP
 ---
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
@@ -77,8 +78,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: goserver
-  minReplicas: 2
-  maxReplicas: 5
+  minReplicas: 3
+  maxReplicas: 6
   metrics:
   targetCPUUtilizationPercentage: 75
       

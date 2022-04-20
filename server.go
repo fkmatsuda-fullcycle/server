@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
@@ -11,6 +12,11 @@ func main() {
 	http.HandleFunc("/", hello)
 
 	fmt.Println("Server started...")
+
+	go func() {
+		time.Sleep(time.Second * 10)
+		fmt.Println("tic...")
+	}()
 
 	http.ListenAndServe(":80", nil)
 }
