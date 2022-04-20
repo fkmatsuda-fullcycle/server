@@ -18,11 +18,15 @@ func hello(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintf(w, "Hello %s!!! You are %s years old.", name, age)
 
+	fmt.Println("Hello World!")
+
 }
 
 func healthz(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("OK"))
+
+	fmt.Println("Health Check!")
 
 }
