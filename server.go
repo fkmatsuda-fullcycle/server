@@ -9,6 +9,9 @@ import (
 func main() {
 	http.HandleFunc("/healthz", healthz)
 	http.HandleFunc("/", hello)
+
+	fmt.Println("Server started...")
+
 	http.ListenAndServe(":80", nil)
 }
 
@@ -26,7 +29,5 @@ func healthz(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("OK"))
-
-	fmt.Println("Health Check!")
 
 }
