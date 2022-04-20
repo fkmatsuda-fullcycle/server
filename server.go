@@ -14,8 +14,12 @@ func main() {
 	fmt.Println("Server started...")
 
 	go func() {
-		time.Sleep(time.Second * 10)
-		fmt.Println("tic...")
+		for true {
+			fmt.Println("tic...")
+			time.Sleep(time.Second)
+			fmt.Println("tac...")
+			time.Sleep(time.Second)
+		}
 	}()
 
 	http.ListenAndServe(":80", nil)
