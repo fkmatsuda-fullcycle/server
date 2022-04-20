@@ -4,10 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"time"
 )
-
-var startedAt time.Time = time.Now()
 
 func main() {
 	http.HandleFunc("/healthz", healthz)
@@ -25,14 +22,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 
 func healthz(w http.ResponseWriter, r *http.Request) {
 
-	duration := time.Since(startedAt)
-
-	if duration.Seconds() < 10 {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(fmt.Sprintf("Duration: %v", duration.Seconds())))
-	} else {
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
-	}
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("OK"))
 
 }
