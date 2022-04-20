@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: goserver
-        image: fkmatsuda/server:0.0.14
+        image: fkmatsuda/server:0.0.15
         startupProbe:
           httpGet:
             path: /healthz
@@ -59,10 +59,10 @@ spec:
             name: server-env
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "50m"
+            memory: "32Mi"
+            cpu: "75m"
           limits:
-            memory: "256Mi"
+            memory: "32Mi"
             cpu: "100m"
         ports:
           - containerPort: 80
